@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>聊 · Luyện nói</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Caveat:wght@500;700&family=Noto+Serif:wght@400;600&family=Noto+Serif+SC:wght@400;600;700&display=swap">
+<style>
+[hidden] { display: none !important }
+:root {
+  --desk: #dcd6cb; --paper: #f1ebdf; --paper-2: #e9e1d1; --rule: #d9cfbd; --ink: #2b2620; --muted: #6c6255;
+  --red: #9b3328; --red-soft: #f3ded8; --green: #2f7a4f; --clip: #9aa0a6; --spine: #2d2622; --ring: #c9c4bd;
+  --note: #ece4d2; --tape: rgba(222, 205, 170, .78); --line-box: #f7f2e8; --on-red: #fff8f0;
+  --hand: "Caveat", "Comic Sans MS", cursive; --body: "Be Vietnam Pro", system-ui, sans-serif;
+  --pinyin: "Noto Serif", Georgia, serif; --han: "Noto Serif SC", "Songti SC", "SimSun", serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --desk: #191715; --paper: #2a2621; --paper-2: #322d27; --rule: #463f36; --ink: #efe7da; --muted: #b5aa99;
+  --red: #e2826f; --red-soft: #452a24; --green: #79c99a; --clip: #8b9096; --spine: #0e0c0b; --ring: #8d8780;
+  --note: #3a342c; --tape: rgba(120, 104, 80, .7); --line-box: #2f2a24; --on-red: #1d1410 } }
+:root[data-theme="dark"] {
+  --desk: #191715; --paper: #2a2621; --paper-2: #322d27; --rule: #463f36; --ink: #efe7da; --muted: #b5aa99;
+  --red: #e2826f; --red-soft: #452a24; --green: #79c99a; --clip: #8b9096; --spine: #0e0c0b; --ring: #8d8780;
+  --note: #3a342c; --tape: rgba(120, 104, 80, .7); --line-box: #2f2a24; --on-red: #1d1410 }
+
+* { box-sizing: border-box }
+body { margin: 0; background: var(--desk); color: var(--ink); font: 16px/1.55 var(--body) }
+button { font: inherit; color: inherit; cursor: pointer }
+button:focus-visible, a:focus-visible, textarea:focus-visible { outline: 2px solid var(--red); outline-offset: 2px }
+
+.wrap { max-width: 860px; margin: 0 auto; padding: 20px 16px 48px }
+.back { display: inline-block; margin-bottom: 12px; color: var(--muted); font-size: .9rem; text-decoration: none }
+.back:hover { color: var(--red) }
+
+/* Sổ còng */
+.book { position: relative; background: var(--paper); border-radius: 6px 14px 14px 6px; padding: 26px 28px 34px 96px;
+  box-shadow: 0 18px 40px -22px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.05);
+  background-image: radial-gradient(rgba(0,0,0,.025) 1px, transparent 1px); background-size: 6px 6px }
+.spine { position: absolute; left: 0; top: 0; bottom: 0; width: 56px; background: var(--spine); border-radius: 6px 0 0 6px;
+  box-shadow: inset -6px 0 10px rgba(0,0,0,.35) }
+.rings { position: absolute; left: 22px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-around; padding: 28px 0 }
+.ring { width: 58px; height: 26px; border: 4px solid var(--ring); border-left-color: transparent; border-radius: 0 14px 14px 0;
+  background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,.18)); box-shadow: 2px 2px 3px rgba(0,0,0,.25) }
+.ring::before { content: ""; display: block; width: 10px; height: 10px; border-radius: 50%; background: var(--desk); margin: 0 0 0 40px; transform: translateY(0) }
+
+.top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: start }
+
+.dice { width: 84px; height: 84px; border-radius: 50%; border: 0; background: var(--red); color: var(--on-red);
+  display: grid; place-content: center; text-align: center; line-height: 1.05; box-shadow: 0 6px 14px -6px rgba(155,51,40,.7), inset 0 -3px 0 rgba(0,0,0,.18) }
+.dice b { font-family: var(--han); font-size: 1.9rem; font-weight: 700 }
+.dice span { font-size: .72rem; font-weight: 700; letter-spacing: .02em }
+.dice:hover { transform: rotate(-6deg) }
+.dice.spin b { animation: spin .5s ease }
+@keyframes spin { from { transform: rotate(0) } to { transform: rotate(360deg) } }
+
+.range h2 { margin: 0 0 6px; font-family: var(--hand); font-size: 1.55rem; font-weight: 700; color: var(--ink); line-height: 1.1 }
+.range p { margin: 0 0 8px; font-size: .82rem; color: var(--muted) }
+.lessons { display: flex; flex-wrap: wrap; gap: 8px }
+.lesson { border: 1.5px solid var(--rule); background: var(--line-box); border-radius: 10px; padding: 6px 12px; text-align: left; display: grid; line-height: 1.25 }
+.lesson small { font-size: .74rem; color: var(--muted) }
+.lesson b { font-size: .92rem }
+.lesson[aria-pressed="true"] { border-color: var(--red); background: var(--red-soft) }
+.lesson.in:not([aria-pressed="true"]) { border-style: dashed; border-color: var(--red) }
+
+.note { position: relative; background: var(--note); padding: 14px 14px 12px; min-width: 176px; margin-top: -8px;
+  clip-path: polygon(0 4%, 6% 0, 14% 3%, 25% 0, 38% 4%, 52% 1%, 66% 4%, 80% 0, 92% 3%, 100% 1%, 100% 100%, 0 100%);
+  box-shadow: 0 4px 10px -6px rgba(0,0,0,.4); transform: rotate(1.5deg) }
+.clip { position: absolute; right: 18px; top: -26px; width: 20px; height: 52px; border: 3px solid var(--clip); border-radius: 10px; z-index: 2 }
+.clip::after { content: ""; position: absolute; left: 3px; top: 8px; width: 8px; height: 34px; border: 3px solid var(--clip); border-radius: 6px }
+.note h2 { margin: 0 0 6px; font-family: var(--hand); font-size: 1.5rem; line-height: 1 }
+.hbtns { display: flex; gap: 6px }
+.hbtn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--ink); background: transparent; font-family: var(--hand); font-size: 1.35rem; font-weight: 700; line-height: 1 }
+.hbtn:hover:not(:disabled):not([aria-pressed="true"]) { background: var(--paper) }
+.hbtn[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
+.hbtn:disabled { opacity: .35; cursor: not-allowed }
+.note .lg { margin: 8px 0 0; font-size: .74rem; color: var(--muted); line-height: 1.4 }
+
+.stage { display: grid; justify-items: center; margin: 28px 0 22px; gap: 8px }
+.photo { position: relative; width: min(420px, 100%); background: #fff; padding: 10px 10px 12px; box-shadow: 4px 6px 14px -6px rgba(0,0,0,.45); transform: rotate(-1.2deg) }
+.photo::before { content: ""; position: absolute; top: -14px; left: 50%; width: 110px; height: 28px; margin-left: -55px; background: var(--tape); transform: rotate(2deg) }
+.frame { aspect-ratio: 4 / 3; display: grid; place-items: center; background: var(--paper-2); overflow: hidden }
+.frame img { width: 100%; height: 100%; object-fit: contain; display: block; background: #fff }
+.empty { padding: 16px; text-align: center; font-family: var(--hand); font-size: 1.5rem; color: var(--muted); line-height: 1.2 }
+.count { font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums }
+
+.box { background: var(--line-box); border-radius: 4px; padding: 14px 18px 16px; margin-top: 14px;
+  background-image: repeating-linear-gradient(transparent 0 31px, var(--rule) 31px 32px); background-position: 0 10px; box-shadow: 0 1px 0 rgba(0,0,0,.04) }
+.box h3 { margin: 0 0 8px; font-family: var(--hand); font-size: 1.45rem; line-height: 1.1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px }
+.box h3 small { font-family: var(--body); font-size: .8rem; color: var(--muted); font-weight: 500 }
+.tip { margin: 0; font-size: .9rem; color: var(--muted) }
+.hint { margin-top: 10px }
+.hint h4 { margin: 0 0 6px; font-size: .9rem; color: var(--red); font-weight: 700 }
+.chips { display: flex; flex-wrap: wrap; gap: 8px }
+.chip { border: 1px solid var(--rule); background: var(--paper); border-radius: 10px; padding: 6px 12px; display: grid; justify-items: start; text-align: left; line-height: 1.25 }
+.chip:hover, .chip.on { border-color: var(--red) }
+.chip .p { font-family: var(--pinyin); font-size: 1.02rem; color: var(--green) }
+.chip .h { font-family: var(--han); font-size: 1.1rem }
+.chip .v { font-size: .78rem; color: var(--muted) }
+.chip.on { background: var(--red-soft) }
+
+.gtitle { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px }
+.form { display: inline-block; font-family: var(--han); font-size: 1.05rem; border: 1.5px dashed var(--red); border-radius: 8px; padding: 4px 10px; margin: 4px 0 8px }
+.gname { font-family: var(--han); font-size: 1.2rem; font-weight: 700 }
+.gex { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px; align-items: start; padding: 6px 0 }
+.gex .p { font-family: var(--pinyin); color: var(--green) }
+.gex .h { font-family: var(--han); font-size: 1.08rem }
+.gex .v { font-size: .85rem; color: var(--muted) }
+.small { border: 1px solid var(--ink); background: transparent; border-radius: 999px; padding: 4px 12px; font-size: .82rem; font-weight: 600 }
+.small:hover { background: var(--paper) }
+.say { width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--red-soft); color: var(--red); display: grid; place-items: center }
+.say.on { background: var(--red); color: var(--on-red) }
+
+textarea { width: 100%; min-height: 96px; resize: vertical; border: 0; background: transparent; font: 1.35rem/32px var(--hand); color: var(--ink); padding: 0 }
+.status { min-height: 1.3em; font-size: .85rem; color: var(--muted); margin: 6px 0 0 }
+
+@media (max-width: 680px) {
+  .book { padding: 20px 14px 26px 44px }
+  .spine { width: 26px }
+  .rings { left: 6px }
+  .ring { width: 34px; height: 14px; border-width: 3px }
+  .ring::before { margin-left: 20px; width: 7px; height: 7px }
+  .top { grid-template-columns: auto minmax(0, 1fr); }
+  .note { grid-column: 1 / -1; justify-self: end; margin-top: 4px }
+  .dice { width: 70px; height: 70px }
+  .dice b { font-size: 1.6rem }
+  .stage { margin-top: 20px }
+}
+@media (prefers-reduced-motion: reduce) { .dice.spin b { animation: none } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./">← Từ vựng giao tiếp tiếng Trung</a>
+  <main class="book" aria-label="Luyện nói theo hình">
+    <div class="spine" aria-hidden="true"></div>
+    <div class="rings" aria-hidden="true"><i class="ring"></i><i class="ring"></i><i class="ring"></i><i class="ring"></i><i class="ring"></i><i class="ring"></i></div>
+
+    <div class="top">
+      <button class="dice" id="dice" type="button" aria-label="Rút một hình ngẫu nhiên"><b>聊</b><span>Rút hình</span></button>
+      <section class="range" aria-labelledby="rangeH">
+        <h2 id="rangeH">Học đến bài nào?</h2>
+        <p>Chỉ rút hình, từ vựng và ngữ pháp từ Bài 1 đến bài đã chọn.</p>
+        <div class="lessons" id="lessons"></div>
+      </section>
+      <aside class="note" aria-labelledby="noteH">
+        <span class="clip" aria-hidden="true"></span>
+        <h2 id="noteH">Gợi ý</h2>
+        <div class="hbtns" id="hbtns"></div>
+        <p class="lg">1 nhân vật · 2 nơi chốn<br>3 thời gian · 4 sự kiện</p>
+      </aside>
+    </div>
+
+    <div class="stage">
+      <figure class="photo" style="margin:0"><div class="frame" id="frame"><div class="empty">Bấm nút 聊<br>để rút một bức hình</div></div></figure>
+      <span class="count" id="count"></span>
+    </div>
+
+    <section class="box" aria-labelledby="hintH">
+      <h3 id="hintH">Gợi ý <small>bấm số trên mẩu giấy ghim, bấm vào từ để nghe</small></h3>
+      <div id="hints"><p class="tip">Rút hình trước, rồi mở từng gợi ý khi cần.</p></div>
+    </section>
+
+    <section class="box" aria-labelledby="gramH">
+      <div class="gtitle"><h3 id="gramH">Điểm ngữ pháp <small>thử dùng khi kể về bức hình</small></h3><button class="small" id="regram" type="button">Đổi cấu trúc</button></div>
+      <div id="gram"></div>
+    </section>
+
+    <section class="box" aria-labelledby="myH">
+      <h3 id="myH">Em nói <small>ghi nhanh vài câu trước khi nói</small></h3>
+      <textarea id="my" aria-labelledby="myH" placeholder="这是……"></textarea>
+    </section>
+    <p class="status" id="status" aria-live="polite"></p>
+  </main>
+</div>
+
+<script>
+const LESSONS = [{"n":1,"name":"Mua trái cây","zh":"买水果"},{"n":2,"name":"Nhà hàng","zh":"在饭店"}];
+const PICS = [{"id":"p01","img":"media/NH-01.jpg","bai":1,"alt":"Chú bán trái cây cười, trước mặt là táo đỏ, một bạn nhỏ đứng xem","hints":[[{"han":"摊主","py":"tānzhǔ","vi":"chủ sạp"},{"han":"老板","py":"lǎobǎn","vi":"ông chủ"},{"han":"小朋友","py":"xiǎopéngyou","vi":"bạn nhỏ"},{"han":"顾客","py":"gùkè","vi":"khách hàng"}],[{"han":"水果摊","py":"shuǐguǒtān","vi":"sạp trái cây"},{"han":"路边","py":"lùbiān","vi":"ven đường"},{"han":"树下","py":"shù xià","vi":"dưới gốc cây"}],[{"han":"下午","py":"xiàwǔ","vi":"buổi chiều"},{"han":"放学以后","py":"fàngxué yǐhòu","vi":"sau giờ tan học"},{"han":"天气很热","py":"tiānqì hěn rè","vi":"trời rất nóng"}],[{"han":"卖苹果","py":"mài píngguǒ","vi":"bán táo"},{"han":"随便挑","py":"suíbiàn tiāo","vi":"cứ tùy ý chọn"},{"han":"又新鲜又甜","py":"yòu xīnxiān yòu tián","vi":"vừa tươi vừa ngọt"},{"han":"要不要买点水果","py":"yào bu yào mǎi diǎn shuǐguǒ","vi":"có mua ít trái cây không"}]]},{"id":"p02","img":"media/video-muatraicay-1.jpg","bai":1,"alt":"Chú bán táo nói chuyện với một bạn học sinh nữ","hints":[[{"han":"摊主","py":"tānzhǔ","vi":"chủ sạp"},{"han":"学生","py":"xuésheng","vi":"học sinh"},{"han":"小女孩","py":"xiǎo nǚhái","vi":"bé gái"}],[{"han":"水果摊","py":"shuǐguǒtān","vi":"sạp trái cây"},{"han":"学校附近","py":"xuéxiào fùjìn","vi":"gần trường"},{"han":"路口","py":"lùkǒu","vi":"ngã tư"}],[{"han":"放学以后","py":"fàngxué yǐhòu","vi":"sau giờ tan học"},{"han":"下午四点","py":"xiàwǔ sì diǎn","vi":"4 giờ chiều"}],[{"han":"看看苹果","py":"kànkan píngguǒ","vi":"xem táo"},{"han":"挑苹果","py":"tiāo píngguǒ","vi":"chọn táo"},{"han":"不但甜，而且新鲜","py":"búdàn tián, érqiě xīnxiān","vi":"không những ngọt mà còn tươi"}]]},{"id":"p03","img":"media/video-muatraicay-2.jpg","bai":1,"alt":"Bé gái cầm táo, cười rất vui","hints":[[{"han":"小女孩","py":"xiǎo nǚhái","vi":"bé gái"},{"han":"学生","py":"xuésheng","vi":"học sinh"},{"han":"摊主","py":"tānzhǔ","vi":"chủ sạp"}],[{"han":"水果摊","py":"shuǐguǒtān","vi":"sạp trái cây"},{"han":"超市","py":"chāoshì","vi":"siêu thị (để so sánh)"}],[{"han":"今天下午","py":"jīntiān xiàwǔ","vi":"chiều nay"},{"han":"以前","py":"yǐqián","vi":"trước đây"},{"han":"以后","py":"yǐhòu","vi":"sau này"}],[{"han":"买到了甜苹果","py":"mǎidàole tián píngguǒ","vi":"mua được táo ngọt"},{"han":"比超市便宜","py":"bǐ chāoshì piányi","vi":"rẻ hơn siêu thị"},{"han":"跟超市的一样新鲜","py":"gēn chāoshì de yíyàng xīnxiān","vi":"tươi như ở siêu thị"},{"han":"很高兴","py":"hěn gāoxìng","vi":"rất vui"}]]},{"id":"p04","img":"media/audio-muatraicay.jpg","bai":1,"alt":"Bạn nhỏ chỉ vào táo ở sạp, cô bán hàng đứng sau quầy","hints":[[{"han":"安娜","py":"Ānnà","vi":"Anna"},{"han":"摊主","py":"tānzhǔ","vi":"chủ sạp"},{"han":"小孩","py":"xiǎohái","vi":"đứa trẻ"}],[{"han":"水果摊","py":"shuǐguǒtān","vi":"sạp trái cây"},{"han":"市场","py":"shìchǎng","vi":"chợ"}],[{"han":"早上","py":"zǎoshang","vi":"buổi sáng"},{"han":"周末","py":"zhōumò","vi":"cuối tuần"}],[{"han":"买两斤苹果","py":"mǎi liǎng jīn píngguǒ","vi":"mua hai cân táo"},{"han":"葡萄比苹果贵","py":"pútao bǐ píngguǒ guì","vi":"nho đắt hơn táo"},{"han":"便宜一点","py":"piányi yìdiǎn","vi":"rẻ một chút"},{"han":"每天进货","py":"měi tiān jìnhuò","vi":"ngày nào cũng nhập hàng"}]]},{"id":"p05","img":"media/NH-12.jpg","bai":1,"alt":"Chú bán hàng cân túi táo cho một cô gái ở chợ","hints":[[{"han":"摊主","py":"tānzhǔ","vi":"chủ sạp"},{"han":"年轻的女顾客","py":"niánqīng de nǚ gùkè","vi":"khách nữ trẻ tuổi"}],[{"han":"水果摊","py":"shuǐguǒtān","vi":"sạp trái cây"},{"han":"市场","py":"shìchǎng","vi":"chợ"}],[{"han":"上午","py":"shàngwǔ","vi":"buổi sáng"},{"han":"天气很好","py":"tiānqì hěn hǎo","vi":"trời đẹp"}],[{"han":"称一下","py":"chēng yíxià","vi":"cân thử"},{"han":"一共两斤","py":"yígòng liǎng jīn","vi":"tổng cộng hai cân"},{"han":"装进袋子","py":"zhuāngjìn dàizi","vi":"bỏ vào túi"},{"han":"多少钱一斤","py":"duōshao qián yì jīn","vi":"bao nhiêu tiền một cân"}]]},{"id":"p06","img":"media/NH-05.jpg","bai":1,"alt":"Nhân viên tiệm quần áo đưa áo cho một cô khách xem","hints":[[{"han":"店员","py":"diànyuán","vi":"nhân viên bán hàng"},{"han":"顾客","py":"gùkè","vi":"khách hàng"}],[{"han":"衣服店","py":"yīfu diàn","vi":"tiệm quần áo"},{"han":"商场","py":"shāngchǎng","vi":"trung tâm thương mại"}],[{"han":"周末","py":"zhōumò","vi":"cuối tuần"},{"han":"下午","py":"xiàwǔ","vi":"buổi chiều"}],[{"han":"试穿","py":"shìchuān","vi":"mặc thử"},{"han":"款式多","py":"kuǎnshì duō","vi":"nhiều kiểu"},{"han":"价格不贵","py":"jiàgé bú guì","vi":"giá không đắt"},{"han":"打折","py":"dǎzhé","vi":"giảm giá"}]]},{"id":"p07","img":"media/audio-datban.jpg","bai":2,"alt":"Một cô gái gọi điện thoại, nhân viên nhà hàng nghe máy và ghi chép","hints":[[{"han":"安娜","py":"Ānnà","vi":"Anna"},{"han":"服务员","py":"fúwùyuán","vi":"nhân viên phục vụ"},{"han":"客人","py":"kèrén","vi":"khách"}],[{"han":"家里","py":"jiā li","vi":"ở nhà"},{"han":"饭店","py":"fàndiàn","vi":"nhà hàng"},{"han":"前台","py":"qiántái","vi":"quầy lễ tân"}],[{"han":"今天晚上七点","py":"jīntiān wǎnshang qī diǎn","vi":"7 giờ tối nay"},{"han":"八点半","py":"bā diǎn bàn","vi":"8 giờ rưỡi"}],[{"han":"打电话预约","py":"dǎ diànhuà yùyuē","vi":"gọi điện đặt trước"},{"han":"包房订满了","py":"bāofáng dìng mǎn le","vi":"phòng riêng kín chỗ rồi"},{"han":"大厅还有空位","py":"dàtīng hái yǒu kòngwèi","vi":"sảnh vẫn còn chỗ trống"},{"han":"保留十五分钟","py":"bǎoliú shíwǔ fēnzhōng","vi":"giữ 15 phút"}]]},{"id":"p08","img":"media/NH-15.jpg","bai":2,"alt":"Một cô gái đứng nghe điện thoại","hints":[[{"han":"我的朋友","py":"wǒ de péngyou","vi":"bạn của tôi"},{"han":"服务员","py":"fúwùyuán","vi":"nhân viên phục vụ"}],[{"han":"家里","py":"jiā li","vi":"ở nhà"},{"han":"路上","py":"lù shang","vi":"trên đường"}],[{"han":"星期日晚上","py":"xīngqīrì wǎnshang","vi":"tối Chủ nhật"},{"han":"明天","py":"míngtiān","vi":"ngày mai"}],[{"han":"订座位","py":"dìng zuòwèi","vi":"đặt chỗ"},{"han":"三个人","py":"sān ge rén","vi":"ba người"},{"han":"想要包房","py":"xiǎng yào bāofáng","vi":"muốn phòng riêng"},{"han":"名字和电话","py":"míngzi hé diànhuà","vi":"tên và số điện thoại"}]]},{"id":"p09","img":"media/NH-18.jpg","bai":2,"alt":"Một anh đứng ở quầy lễ tân, nhân viên đang ghi sổ, trên tường có đồng hồ","hints":[[{"han":"先生","py":"xiānsheng","vi":"anh, ông"},{"han":"服务员","py":"fúwùyuán","vi":"nhân viên phục vụ"},{"han":"客人","py":"kèrén","vi":"khách"}],[{"han":"饭店前台","py":"fàndiàn qiántái","vi":"quầy lễ tân nhà hàng"}],[{"han":"现在","py":"xiànzài","vi":"bây giờ"},{"han":"晚上七点","py":"wǎnshang qī diǎn","vi":"7 giờ tối"}],[{"han":"预约座位","py":"yùyuē zuòwèi","vi":"đặt chỗ trước"},{"han":"你想订几点的","py":"nǐ xiǎng dìng jǐ diǎn de","vi":"anh muốn đặt mấy giờ"},{"han":"一共几位","py":"yígòng jǐ wèi","vi":"tất cả mấy vị"},{"han":"写名字","py":"xiě míngzi","vi":"ghi tên"}]]},{"id":"p10","img":"media/NH-19.jpg","bai":2,"alt":"Nhà hàng đông kín khách, một đôi khách đứng ở quầy hỏi nhân viên","hints":[[{"han":"一对夫妻","py":"yí duì fūqī","vi":"một cặp vợ chồng"},{"han":"服务员","py":"fúwùyuán","vi":"nhân viên phục vụ"},{"han":"客人","py":"kèrén","vi":"khách"}],[{"han":"饭店","py":"fàndiàn","vi":"nhà hàng"},{"han":"大厅","py":"dàtīng","vi":"sảnh"}],[{"han":"晚上","py":"wǎnshang","vi":"buổi tối"},{"han":"周末","py":"zhōumò","vi":"cuối tuần"},{"han":"吃饭的时候","py":"chīfàn de shíhou","vi":"giờ ăn"}],[{"han":"座位满了","py":"zuòwèi mǎn le","vi":"kín chỗ rồi"},{"han":"没有空位","py":"méiyǒu kòngwèi","vi":"không có chỗ trống"},{"han":"别的时间","py":"bié de shíjiān","vi":"giờ khác"},{"han":"去别的饭店","py":"qù bié de fàndiàn","vi":"đi nhà hàng khác"}]]},{"id":"p11","img":"media/NH-17.jpg","bai":2,"alt":"Sảnh nhà hàng rất đông, nhân viên bưng đồ ăn","hints":[[{"han":"服务员","py":"fúwùyuán","vi":"nhân viên phục vụ"},{"han":"很多客人","py":"hěn duō kèrén","vi":"rất nhiều khách"},{"han":"家人和朋友","py":"jiārén hé péngyou","vi":"gia đình và bạn bè"}],[{"han":"大厅","py":"dàtīng","vi":"sảnh"},{"han":"饭店","py":"fàndiàn","vi":"nhà hàng"}],[{"han":"晚上","py":"wǎnshang","vi":"buổi tối"},{"han":"吃晚饭的时候","py":"chī wǎnfàn de shíhou","vi":"giờ ăn tối"}],[{"han":"人很多","py":"rén hěn duō","vi":"rất đông người"},{"han":"一个空位都没有","py":"yí ge kòngwèi dōu méiyǒu","vi":"không còn một chỗ trống nào"},{"han":"我来晚了","py":"wǒ lái wǎn le","vi":"tôi đến muộn rồi"}]]},{"id":"p12","img":"media/NH-16.jpg","bai":2,"alt":"Một anh đến bàn có cô gái đang ngồi, hỏi chỗ bên cạnh","hints":[[{"han":"一位先生","py":"yí wèi xiānsheng","vi":"một anh"},{"han":"一位女士","py":"yí wèi nǚshì","vi":"một cô"},{"han":"同学","py":"tóngxué","vi":"bạn học"}],[{"han":"饭店","py":"fàndiàn","vi":"nhà hàng"},{"han":"大厅","py":"dàtīng","vi":"sảnh"}],[{"han":"中午","py":"zhōngwǔ","vi":"buổi trưa"},{"han":"吃午饭的时候","py":"chī wǔfàn de shíhou","vi":"giờ ăn trưa"}],[{"han":"这个座位有人吗","py":"zhège zuòwèi yǒu rén ma","vi":"chỗ này có ai ngồi chưa"},{"han":"没有人，请坐","py":"méiyǒu rén, qǐng zuò","vi":"không có ai, mời ngồi"},{"han":"换一个座位","py":"huàn yí ge zuòwèi","vi":"đổi chỗ ngồi"}]]},{"id":"p13","img":"media/NH-22.jpg","bai":2,"alt":"Nhân viên ghi món, cô khách cầm thực đơn, trên bàn nhiều món ăn","hints":[[{"han":"服务员","py":"fúwùyuán","vi":"nhân viên phục vụ"},{"han":"女客人","py":"nǚ kèrén","vi":"khách nữ"}],[{"han":"饭店","py":"fàndiàn","vi":"nhà hàng"}],[{"han":"晚上","py":"wǎnshang","vi":"buổi tối"},{"han":"吃晚饭的时候","py":"chī wǎnfàn de shíhou","vi":"giờ ăn tối"}],[{"han":"看菜单","py":"kàn càidān","vi":"xem thực đơn"},{"han":"点菜","py":"diǎn cài","vi":"gọi món"},{"han":"还想要别的吗","py":"hái xiǎng yào bié de ma","vi":"còn muốn gì khác không"},{"han":"有什么忌口","py":"yǒu shénme jìkǒu","vi":"có kiêng gì không"}]]},{"id":"p14","img":"media/audio-goimon.jpg","bai":2,"alt":"Cả nhà gọi món, nhân viên đứng cạnh; hình cola, trà và ớt bị gạch","hints":[[{"han":"小丽","py":"Xiǎolì","vi":"Tiểu Lệ"},{"han":"小丽妈妈","py":"Xiǎolì māma","vi":"mẹ Tiểu Lệ"},{"han":"大龙","py":"Dàlóng","vi":"Đại Long"},{"han":"服务员","py":"fúwùyuán","vi":"nhân viên phục vụ"},{"han":"一家人","py":"yì jiā rén","vi":"cả nhà"}],[{"han":"饭店","py":"fàndiàn","vi":"nhà hàng"},{"han":"中国饭店","py":"Zhōngguó fàndiàn","vi":"nhà hàng Trung Quốc"}],[{"han":"晚上","py":"wǎnshang","vi":"buổi tối"},{"han":"吃晚饭的时候","py":"chī wǎnfàn de shíhou","vi":"giờ ăn tối"}],[{"han":"点菜","py":"diǎn cài","vi":"gọi món"},{"han":"来一只北京烤鸭","py":"lái yì zhī Běijīng kǎoyā","vi":"cho một con vịt quay Bắc Kinh"},{"han":"喝可乐还是茶","py":"hē kělè háishi chá","vi":"uống cola hay trà"},{"han":"别太辣","py":"bié tài là","vi":"đừng cay quá"}]]},{"id":"p15","img":"media/NH-24.jpg","bai":2,"alt":"Một anh mặc vest vừa chạy vừa nhìn đồng hồ, phía trước là nhà hàng","hints":[[{"han":"一位先生","py":"yí wèi xiānsheng","vi":"một anh"},{"han":"朋友们","py":"péngyoumen","vi":"các bạn"}],[{"han":"饭店门口","py":"fàndiàn ménkǒu","vi":"cửa nhà hàng"},{"han":"路上","py":"lù shang","vi":"trên đường"}],[{"han":"下班以后","py":"xiàbān yǐhòu","vi":"sau giờ tan làm"},{"han":"七点十分","py":"qī diǎn shí fēn","vi":"7 giờ 10"}],[{"han":"迟到了","py":"chídào le","vi":"đến trễ rồi"},{"han":"跑得很快","py":"pǎo de hěn kuài","vi":"chạy rất nhanh"},{"han":"座位会被取消","py":"zuòwèi huì bèi qǔxiāo","vi":"chỗ sẽ bị hủy"},{"han":"请保留座位","py":"qǐng bǎoliú zuòwèi","vi":"xin giữ chỗ"}]]},{"id":"p16","img":"media/NH-25.jpg","bai":2,"alt":"Cô gái nhìn điện thoại, vẻ tiếc nuối, bên cạnh là lịch có dấu X","hints":[[{"han":"一位女士","py":"yí wèi nǚshì","vi":"một cô"},{"han":"服务员","py":"fúwùyuán","vi":"nhân viên phục vụ"}],[{"han":"家里","py":"jiā li","vi":"ở nhà"}],[{"han":"今天晚上八点","py":"jīntiān wǎnshang bā diǎn","vi":"8 giờ tối nay"},{"han":"明天","py":"míngtiān","vi":"ngày mai"}],[{"han":"取消预约","py":"qǔxiāo yùyuē","vi":"hủy đặt chỗ"},{"han":"不能去了","py":"bù néng qù le","vi":"không đi được nữa"},{"han":"提前打电话","py":"tíqián dǎ diànhuà","vi":"gọi điện trước"},{"han":"不好意思","py":"bù hǎoyìsi","vi":"xin lỗi"}]]},{"id":"p17","img":"media/video-nhahang.jpg","bai":2,"alt":"Anh nhân viên mặc gi-lê đứng cười chào khách","hints":[[{"han":"服务员","py":"fúwùyuán","vi":"nhân viên phục vụ"},{"han":"张先生","py":"Zhāng xiānsheng","vi":"anh Trương"},{"han":"客人","py":"kèrén","vi":"khách"}],[{"han":"饭店门口","py":"fàndiàn ménkǒu","vi":"cửa nhà hàng"}],[{"han":"晚上","py":"wǎnshang","vi":"buổi tối"}],[{"han":"请问有预约吗","py":"qǐngwèn yǒu yùyuē ma","vi":"xin hỏi có đặt trước không"},{"han":"一共三位","py":"yígòng sān wèi","vi":"tất cả ba vị"},{"han":"请这边坐","py":"qǐng zhè biān zuò","vi":"mời ngồi bên này"},{"han":"欢迎光临","py":"huānyíng guānglín","vi":"hoan nghênh quý khách"}]]}];
+const GRAMMAR = [{"bai":1,"name":"不但…，而且…","form":"S + 不但 + A，而且 + B","ex":[{"han":"我们的苹果不但甜，而且新鲜。","py":"Wǒmen de píngguǒ búdàn tián, érqiě xīnxiān.","vi":"Táo của chúng tôi không những ngọt mà còn tươi."},{"han":"这家店的水果不但新鲜，而且便宜。","py":"Zhè jiā diàn de shuǐguǒ búdàn xīnxiān, érqiě piányi.","vi":"Trái cây ở tiệm này không những tươi mà còn rẻ."}]},{"bai":1,"name":"So sánh với 比","form":"A + 比 + B + tính từ","ex":[{"han":"他们的苹果比超市便宜。","py":"Tāmen de píngguǒ bǐ chāoshì piányi.","vi":"Táo của họ rẻ hơn siêu thị."},{"han":"葡萄比苹果贵吗？","py":"Pútao bǐ píngguǒ guì ma?","vi":"Nho có đắt hơn táo không?"}]},{"bai":1,"name":"A 跟 B 一样","form":"A + 跟 + B + 一样 + tính từ","ex":[{"han":"我们苹果跟超市的一样新鲜。","py":"Wǒmen píngguǒ gēn chāoshì de yíyàng xīnxiān.","vi":"Táo của chúng tôi tươi như ở siêu thị."}]},{"bai":1,"name":"如果…，就…","form":"如果 + điều kiện，(S) + 就 + kết quả","ex":[{"han":"如果你买两斤苹果，我就给你便宜一点。","py":"Rúguǒ nǐ mǎi liǎng jīn píngguǒ, wǒ jiù gěi nǐ piányi yìdiǎn.","vi":"Nếu bạn mua hai cân táo, tôi sẽ bớt cho bạn một chút."}]},{"bai":1,"name":"虽然…，但是…","form":"虽然 + A，但是 + B","ex":[{"han":"虽然我的摊子不大，但是每天都有新水果。","py":"Suīrán wǒ de tānzi bú dà, dànshì měi tiān dōu yǒu xīn shuǐguǒ.","vi":"Tuy sạp của tôi không lớn, nhưng ngày nào cũng có trái cây mới."}]},{"bai":1,"name":"因为…，所以…","form":"因为 + nguyên nhân，所以 + kết quả","ex":[{"han":"因为苹果看着很好，所以我想买。","py":"Yīnwèi píngguǒ kànzhe hěn hǎo, suǒyǐ wǒ xiǎng mǎi.","vi":"Vì táo trông rất ngon nên tôi muốn mua."}]},{"bai":1,"name":"又…又…","form":"又 + tính từ 1 + 又 + tính từ 2","ex":[{"han":"这种红苹果又新鲜又便宜。","py":"Zhè zhǒng hóng píngguǒ yòu xīnxiān yòu piányi.","vi":"Loại táo đỏ này vừa tươi vừa rẻ."},{"han":"这个水果摊的葡萄又大又甜。","py":"Zhège shuǐguǒtān de pútao yòu dà yòu tián.","vi":"Nho ở sạp này vừa to vừa ngọt."}]},{"bai":1,"name":"Câu chữ 把","form":"S + 把 + tân ngữ + động từ + 进 + nơi chốn","ex":[{"han":"请把这些葡萄装进袋子里。","py":"Qǐng bǎ zhèxiē pútao zhuāngjìn dàizi li.","vi":"Làm ơn bỏ chỗ nho này vào túi."},{"han":"我帮你把苹果装进袋子里了。","py":"Wǒ bāng nǐ bǎ píngguǒ zhuāngjìn dàizi li le.","vi":"Tôi bỏ táo vào túi giúp bạn rồi."}]},{"bai":1,"name":"Động từ + 一下","form":"động từ + 一下 (làm thử, làm một chút)","ex":[{"han":"老板，帮我称一下这些苹果。","py":"Lǎobǎn, bāng wǒ chēng yíxià zhèxiē píngguǒ.","vi":"Ông chủ, cân giúp tôi chỗ táo này."},{"han":"我称一下，一共两斤。","py":"Wǒ chēng yíxià, yígòng liǎng jīn.","vi":"Để tôi cân, tổng cộng hai cân."}]},{"bai":1,"name":"Câu hỏi chính phản 要不要","form":"要不要 + động từ…？","ex":[{"han":"小朋友，要不要买点水果？","py":"Xiǎopéngyou, yào bu yào mǎi diǎn shuǐguǒ?","vi":"Bạn nhỏ ơi, có mua ít trái cây không?"},{"han":"你要不要袋子？","py":"Nǐ yào bu yào dàizi?","vi":"Bạn có lấy túi không?"}]},{"bai":1,"name":"Câu hỏi lựa chọn 还是","form":"A + 还是 + B？","ex":[{"han":"葡萄还是苹果贵？","py":"Pútao háishi píngguǒ guì?","vi":"Nho hay táo đắt hơn?"}]},{"bai":2,"name":"已经…了","form":"已经 + động từ / tính từ + 了","ex":[{"han":"今晚七点的包房已经订满了。","py":"Jīn wǎn qī diǎn de bāofáng yǐjīng dìng mǎn le.","vi":"Phòng riêng 7 giờ tối nay đã kín chỗ rồi."},{"han":"对不起，大厅的座位已经满了。","py":"Duìbuqǐ, dàtīng de zuòwèi yǐjīng mǎn le.","vi":"Xin lỗi, chỗ ở sảnh đã kín rồi."}]},{"bai":2,"name":"如果…，(就)会…","form":"如果 + điều kiện，S + 会 + kết quả","ex":[{"han":"如果迟到，座位会被取消。","py":"Rúguǒ chídào, zuòwèi huì bèi qǔxiāo.","vi":"Nếu đến trễ, chỗ ngồi sẽ bị hủy."}]},{"bai":2,"name":"Câu hỏi lựa chọn 还是","form":"A + 还是 + B？","ex":[{"han":"想要大厅还是包房？","py":"Xiǎng yào dàtīng háishi bāofáng?","vi":"Muốn ngồi sảnh hay phòng riêng?"},{"han":"你想吃米饭还是面条？","py":"Nǐ xiǎng chī mǐfàn háishi miàntiáo?","vi":"Bạn muốn ăn cơm hay ăn mì?"}]},{"bai":2,"name":"只能…","form":"S + 只能 + động từ","ex":[{"han":"预约只能保留十五分钟。","py":"Yùyuē zhǐ néng bǎoliú shíwǔ fēnzhōng.","vi":"Chỗ đặt chỉ giữ được 15 phút."}]},{"bai":2,"name":"Câu bị động với 被","form":"S + 被 + (người) + động từ + 了","ex":[{"han":"他迟到了，所以座位被取消了。","py":"Tā chídào le, suǒyǐ zuòwèi bèi qǔxiāo le.","vi":"Anh ấy đến trễ nên chỗ ngồi bị hủy rồi."}]},{"bai":2,"name":"Gọi món: 来 / 要 + số lượng","form":"来 / 要 + số + lượng từ + món","ex":[{"han":"来一只北京烤鸭、一个西红柿炒鸡蛋。","py":"Lái yì zhī Běijīng kǎoyā, yí ge xīhóngshì chǎo jīdàn.","vi":"Cho một con vịt quay Bắc Kinh, một dĩa trứng xào cà chua."},{"han":"服务员，我们要两份饺子。","py":"Fúwùyuán, wǒmen yào liǎng fèn jiǎozi.","vi":"Phục vụ ơi, chúng tôi lấy hai phần sủi cảo."}]},{"bai":2,"name":"再 + động từ","form":"再 + 要 / 来 + món (thêm nữa)","ex":[{"han":"再要一个酸辣汤。","py":"Zài yào yí ge suānlàtāng.","vi":"Thêm một phần canh chua cay."},{"han":"再来一份酸辣汤。","py":"Zài lái yí fèn suānlàtāng.","vi":"Cho thêm một phần canh chua cay."}]},{"bai":2,"name":"别 / 不要 + 太 + tính từ","form":"别 (不要) + 太 + tính từ","ex":[{"han":"别太辣。","py":"Bié tài là.","vi":"Đừng cay quá."},{"han":"我不能吃太辣的。","py":"Wǒ bù néng chī tài là de.","vi":"Tôi không ăn được đồ quá cay."}]},{"bai":2,"name":"要等到…才…","form":"S + 要等到 + thời gian + 才 + có / làm","ex":[{"han":"包房要等到九点才有。","py":"Bāofáng yào děngdào jiǔ diǎn cái yǒu.","vi":"Phòng riêng phải đợi đến 9 giờ mới có."}]},{"bai":2,"name":"请问…？","form":"请问 + câu hỏi (hỏi lịch sự)","ex":[{"han":"请问，您有预约吗？","py":"Qǐngwèn, nín yǒu yùyuē ma?","vi":"Xin hỏi, quý khách có đặt trước không?"},{"han":"请问一共几位？","py":"Qǐngwèn yígòng jǐ wèi?","vi":"Xin hỏi tất cả mấy vị?"}]}];
+const AUD = {"这里的水果都很新鲜你随便买":"media/NH-01_1.mp3","我们店的衣服又好看又便宜你随便试穿如果不满意随便退换":"media/NH-01_2.mp3","你不要挑了这些都很甜":"media/NH-02_1.mp3","今天我有钱这些衣服贵还是便宜没关系你喜欢就随便挑吧":"media/NH-02_2.mp3","苹果不新鲜不要钱":"media/NH-03_1.mp3","这种红苹果又新鲜又便宜":"media/NH-03_2.mp3","你不要喝太甜的奶茶":"media/NH-04_1.mp3","我们的水果比超市里更甜你放心买":"media/NH-04_2.mp3","这里的衣服不但款式多而且价格不贵":"media/NH-05_1.mp3","店员不但帮我找了合适的尺码而且还主动给我打了折":"media/NH-05_2.mp3","他们的苹果比超市便宜":"media/NH-06_1.mp3","超市的水果不新鲜":"media/NH-06_2.mp3","这个水果摊的葡萄又大又甜":"media/NH-07_1.mp3","虽然我的摊子不大但是每天都有新水果":"media/NH-07_2.mp3","老板今天早上去进货了":"media/NH-08_1.mp3","我们每天进货每天都有新鲜的水果":"media/NH-08_2.mp3","这些葡萄很甜你要几斤":"media/NH-09_1.mp3","葡萄比苹果贵吗":"media/NH-09_2.mp3","苹果多少钱一斤":"media/NH-10_1.mp3","如果你买两斤苹果我就给你便宜一点":"media/NH-10_2.mp3","水果放久了就不新鲜了":"media/NH-11_1.mp3","水果不会被放很久吧":"media/NH-11_2.mp3","老板帮我称一下这些苹果":"media/NH-12_1.mp3","我称一下一共两斤":"media/NH-12_2.mp3","请把这些葡萄装进袋子里":"media/NH-13_1.mp3","我帮你把苹果装进袋子里了":"media/NH-13_2.mp3","你要不要袋子我们的袋子不是免费的":"media/NH-14_1.mp3","这个袋子太小了装不下两斤苹果":"media/NH-14_2.mp3","告诉我预约的电话和名字":"media/NH-15_1.mp3","请问您有预约吗":"media/NH-15_2.mp3","我想预约今天晚上点的座位":"media/NH-16_1.mp3","这个座位有人吗":"media/NH-16_2.mp3","我来晚了一个空位都没有":"media/NH-17_1.mp3","大厅还有两个空位您看可以吗":"media/NH-17_2.mp3","先生你想订几点的":"media/NH-18_1.mp3","我想订一个六个人的包房":"media/NH-18_2.mp3","今晚七点的包房已经订满了":"media/NH-19_1.mp3","对不起大厅的座位已经满了":"media/NH-19_2.mp3","晚上八点半大厅有空位":"media/NH-20_1.mp3","包房满了大厅还有座位":"media/NH-20_2.mp3","你们店的包房能坐多少人":"media/NH-21_1.mp3","今天晚上七点还有包房吗":"media/NH-21_2.mp3","你看别的时间可以吗":"media/NH-22_1.mp3","你还想要别的吗":"media/NH-22_2.mp3","我们可以给您保留到七点半":"media/NH-23_1.mp3","预约只能保留十五分钟":"media/NH-23_2.mp3","如果迟到座位会被取消":"media/NH-24_1.mp3","今天我已经预约好了你不要迟到":"media/NH-24_2.mp3","不好意思我想取消今天晚上点的包房":"media/NH-25_1.mp3","如果您不能来请提前打电话取消":"media/NH-25_2.mp3","请问您有什么忌口":"media/NH-26_1.mp3","我最近在忌口不能吃太辣的菜":"media/NH-26_2.mp3","我不能吃太辣的给我换一份不要辣的面条吧":"media/NH-27_1.mp3","这个菜特别辣你要小心":"media/NH-27_2.mp3","你知道去哪儿能吃到北京烤鸭":"media/NH-28_1.mp3","这家饭店的北京烤鸭又香又好吃":"media/NH-28_2.mp3","过年的时候中国人爱吃饺子":"media/NH-29_1.mp3","服务员我们要两份饺子":"media/NH-29_2.mp3","服务员来一点面条不要辣的":"media/NH-30_1.mp3","这碗面条太咸了":"media/NH-30_2.mp3","西红柿炒鸡蛋是我最爱的":"media/NH-31_1.mp3","我们点一个西红柿炒鸡蛋吧":"media/NH-31_2.mp3","这个酸辣汤是包房里要的":"media/NH-32_1.mp3","我们要一份酸辣汤特别辣":"media/NH-32_2.mp3","这个凉拌黄瓜怎么这么辣":"media/NH-33_1.mp3","天气热的时候我喜欢吃凉拌黄瓜":"media/NH-33_2.mp3","菜单":"media/menu-01.mp3","热菜":"media/menu-02.mp3","招牌":"media/menu-03.mp3","北京烤鸭":"media/menu-04.mp3","猪脚饭":"media/menu-05.mp3","西红柿炒鸡蛋":"media/menu-06.mp3","鱼香肉丝":"media/menu-07.mp3","凉菜":"media/menu-08.mp3","拌黄瓜":"media/menu-09.mp3","沙拉":"media/menu-10.mp3","汤":"media/menu-11.mp3","鸡蛋汤":"media/menu-12.mp3","酸辣汤":"media/menu-13.mp3","海鲜汤":"media/menu-14.mp3","主食":"media/menu-15.mp3","米饭":"media/menu-16.mp3","面条":"media/menu-17.mp3","饺子":"media/menu-18.mp3","饮料":"media/menu-19.mp3","水":"media/menu-20.mp3","茶":"media/menu-21.mp3","可乐":"media/menu-22.mp3"};
+const HINTNAMES = ["Nhân vật và mối quan hệ", "Nơi chốn", "Thời gian", "Sự kiện chính"];
+const SPEAKER = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
+const $ = id => document.getElementById(id);
+const make = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const key = t => (t || "").replace(/[^一-鿿]/g, "");
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+
+let upTo = Math.min(Math.max(+store.get("liao-upto", LESSONS.length) || 1, 1), LESSONS.length);
+let deck = [], pic = null, opened = new Set(), gram = null, player = null;
+
+/* Âm thanh: có file ghi âm thì phát file, không thì dùng giọng đọc tiếng Trung của thiết bị */
+function stop() { try { speechSynthesis.cancel(); } catch (e) {} if (player) { player.pause(); player = null; } document.querySelectorAll(".on").forEach(b => b.classList.remove("on")); }
+function say(text, btn) {
+  stop(); $("status").textContent = "";
+  const done = () => btn && btn.classList.remove("on");
+  btn && btn.classList.add("on");
+  const src = AUD[key(text)];
+  if (src) { player = new Audio(src); player.onended = player.onerror = done; player.play().catch(done); return; }
+  const s = window.speechSynthesis, v = s && s.getVoices ? s.getVoices() : [];
+  if (!s || (v.length && !v.some(x => /^(zh|cmn)/i.test(x.lang)))) { done(); $("status").textContent = "Thiết bị này chưa có giọng đọc tiếng Trung."; return; }
+  const u = new SpeechSynthesisUtterance(text); u.lang = "zh-CN"; u.rate = .85; u.onend = u.onerror = done; s.speak(u);
+}
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const pool = () => PICS.filter(p => p.bai <= upTo);
+
+function renderLessons() {
+  const box = $("lessons"); box.replaceChildren();
+  LESSONS.forEach(l => {
+    const b = make("button", "lesson" + (l.n < upTo ? " in" : "")); b.type = "button";
+    b.setAttribute("aria-pressed", String(l.n === upTo));
+    b.append(make("small", "", "Đến bài " + l.n), make("b", "", l.name));
+    b.onclick = () => { upTo = l.n; store.set("liao-upto", String(upTo)); deck = []; renderLessons(); if (pic && pic.bai > upTo) clearPic(); rollGram(); updateCount(); };
+    box.append(b);
+  });
+}
+
+function renderHintBtns() {
+  const box = $("hbtns"); box.replaceChildren();
+  HINTNAMES.forEach((n, i) => {
+    const b = make("button", "hbtn", String(i + 1)); b.type = "button";
+    b.setAttribute("aria-label", "Gợi ý " + (i + 1) + ": " + n); b.title = n;
+    b.disabled = !pic; b.setAttribute("aria-pressed", String(opened.has(i)));
+    b.onclick = () => { opened.has(i) ? opened.delete(i) : opened.add(i); renderHintBtns(); renderHints(); };
+    box.append(b);
+  });
+}
+
+function chip(w) {
+  const b = make("button", "chip"); b.type = "button";
+  b.append(make("span", "p", w.py), make("span", "h", w.han), make("span", "v", w.vi));
+  b.querySelector(".h").lang = "zh-CN";
+  b.onclick = () => say(w.han, b);
+  return b;
+}
+function renderHints() {
+  const box = $("hints"); box.replaceChildren();
+  if (!pic) { box.append(make("p", "tip", "Rút hình trước, rồi mở từng gợi ý khi cần.")); return; }
+  if (!opened.size) { box.append(make("p", "tip", "Thử tự nói trước. Bí thì bấm số 1, 2, 3, 4 trên mẩu giấy ghim.")); return; }
+  [...opened].sort().forEach(i => {
+    const sec = make("div", "hint");
+    sec.append(make("h4", "", "Gợi ý " + (i + 1) + " · " + HINTNAMES[i]));
+    const c = make("div", "chips"); pic.hints[i].forEach(w => c.append(chip(w)));
+    sec.append(c); box.append(sec);
+  });
+}
+
+function rollGram() {
+  const list = GRAMMAR.filter(g => g.bai <= upTo && g !== gram);
+  gram = list[Math.floor(Math.random() * list.length)] || gram;
+  const box = $("gram"); box.replaceChildren();
+  if (!gram) return;
+  const name = make("div", "gname", gram.name); name.lang = "zh-CN";
+  box.append(name, make("div", "form", gram.form));
+  gram.ex.forEach(e => {
+    const row = make("div", "gex"), t = make("div");
+    const h = make("div", "h", e.han); h.lang = "zh-CN";
+    t.append(make("div", "p", e.py), h, make("div", "v", e.vi));
+    const b = make("button", "say"); b.type = "button"; b.innerHTML = SPEAKER; b.setAttribute("aria-label", "Nghe câu mẫu"); b.onclick = () => say(e.han, b);
+    row.append(t, b); box.append(row);
+  });
+}
+
+function clearPic() { pic = null; opened.clear(); $("frame").replaceChildren(Object.assign(make("div", "empty"), { innerHTML: "Bấm nút 聊<br>để rút một bức hình" })); renderHintBtns(); renderHints(); }
+function updateCount() { const n = pool().length; $("count").textContent = pic ? `Hình ${n - deck.length}/${n} trong lượt rút` : `${n} hình trong phạm vi đã chọn`; }
+
+function draw() {
+  stop();
+  if (!deck.length) { deck = shuffle(pool().slice()); if (pic && deck.length > 1 && deck[deck.length - 1] === pic) deck.unshift(deck.pop()); }
+  pic = deck.pop(); opened.clear();
+  const img = make("img"); img.src = pic.img; img.alt = pic.alt;
+  $("frame").replaceChildren(img);
+  $("my").value = "";
+  const d = $("dice"); d.classList.remove("spin"); void d.offsetWidth; d.classList.add("spin");
+  renderHintBtns(); renderHints(); rollGram(); updateCount();
+}
+
+$("dice").onclick = draw;
+$("regram").onclick = rollGram;
+renderLessons(); renderHintBtns(); rollGram(); updateCount();
+</script>
+</body>
+</html>

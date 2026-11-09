@@ -153,8 +153,23 @@ h2 { margin: 0; color: var(--green); font-size: clamp(1.5rem, 3.4vw, 2rem); font
   .block h3 { padding-top: 0 }
 }
 @media (prefers-reduced-motion: no-preference) { .word, .topic, .show { transition: background-color .12s } }
+
+/* Nút tròn 聊: mở trang luyện nói theo hình */
+.liao { position: fixed; right: max(18px, env(safe-area-inset-right, 0px)); bottom: max(18px, env(safe-area-inset-bottom, 0px)); z-index: 50;
+  width: 84px; height: 84px; border-radius: 50%; background: var(--orange); color: var(--sheet); text-decoration: none;
+  display: grid; place-content: center; text-align: center; line-height: 1.05; border: 3px solid var(--sheet);
+  box-shadow: 0 8px 20px -6px rgba(0,0,0,.45), 0 0 0 2px var(--orange) }
+.liao b { font-family: var(--han); font-size: 2rem; font-weight: 600 }
+.liao span { font-size: .7rem; font-weight: 700 }
+.liao::before { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 2px solid var(--orange); opacity: 0 }
+.liao:hover { transform: translateY(-2px) rotate(-5deg) }
+.liao:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px }
+@media (prefers-reduced-motion: no-preference) { .liao::before { animation: liaoPulse 2.4s ease-out infinite } }
+@keyframes liaoPulse { from { transform: scale(1); opacity: .7 } to { transform: scale(1.3); opacity: 0 } }
+@media (max-width: 760px) { .liao { width: 68px; height: 68px } .liao b { font-size: 1.6rem } .page { padding-bottom: 96px } }
 </style>
 
+<a class="liao" href="noi.html" aria-label="聊: luyện nói theo hình ngẫu nhiên"><b>聊</b><span>Luyện nói</span></a>
 <div class="page">
   <header class="top">
     <h1>Từ vựng giao tiếp tiếng Trung</h1>
@@ -517,5 +532,5 @@ function renderTopics() {
 
 renderTopics(); renderWords(); renderSheet();
 </script>
-
-</body></html>
+</body>
+</html>
