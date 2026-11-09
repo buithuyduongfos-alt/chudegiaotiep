@@ -208,7 +208,7 @@ function renderLessons() {
     const b = make("button", "lesson" + (l.n < upTo ? " in" : "")); b.type = "button";
     b.setAttribute("aria-pressed", String(l.n === upTo));
     b.append(make("small", "", "Đến bài " + l.n), make("b", "", l.name));
-    b.onclick = () => { upTo = l.n; store.set("liao-upto", String(upTo)); deck = []; renderLessons(); if (pic && pic.bai > upTo) clearPic(); rollGram(); updateCount(); };
+    b.onclick = () => { upTo = l.n; store.set("liao-upto", String(upTo)); deck = []; renderLessons(); if (pic && pic.bai > upTo) draw(); rollGram(); updateCount(); };
     box.append(b);
   });
 }
@@ -218,8 +218,8 @@ function renderHintBtns() {
   HINTNAMES.forEach((n, i) => {
     const b = make("button", "hbtn", String(i + 1)); b.type = "button";
     b.setAttribute("aria-label", "Gợi ý " + (i + 1) + ": " + n); b.title = n;
-    b.disabled = !pic; b.setAttribute("aria-pressed", String(opened.has(i)));
-    b.onclick = () => { opened.has(i) ? opened.delete(i) : opened.add(i); renderHintBtns(); renderHints(); };
+    b.setAttribute("aria-pressed", String(opened.has(i)));
+    b.onclick = () => { if (!pic) draw(); opened.has(i) ? opened.delete(i) : opened.add(i); renderHintBtns(); renderHints(); };
     box.append(b);
   });
 }
@@ -273,7 +273,7 @@ function draw() {
 
 $("dice").onclick = draw;
 $("regram").onclick = rollGram;
-renderLessons(); renderHintBtns(); rollGram(); updateCount();
+renderLessons(); draw();
 </script>
 </body>
 </html>
