@@ -141,7 +141,6 @@ textarea { width: 100%; min-height: 96px; resize: vertical; border: 0; backgroun
       <button class="dice" id="dice" type="button" aria-label="Rút một hình ngẫu nhiên"><b>聊</b><span>Rút hình</span></button>
       <section class="range" aria-labelledby="rangeH">
         <h2 id="rangeH">Học đến bài nào?</h2>
-        <p>Chỉ rút hình, từ vựng và ngữ pháp từ Bài 1 đến bài đã chọn.</p>
         <div class="lessons" id="lessons"></div>
       </section>
       <aside class="note" aria-labelledby="noteH">
@@ -167,10 +166,6 @@ textarea { width: 100%; min-height: 96px; resize: vertical; border: 0; backgroun
       <div id="gram"></div>
     </section>
 
-    <section class="box" aria-labelledby="myH">
-      <h3 id="myH">Em nói <small>ghi nhanh vài câu trước khi nói</small></h3>
-      <textarea id="my" aria-labelledby="myH" placeholder="这是……"></textarea>
-    </section>
     <p class="status" id="status" aria-live="polite"></p>
   </main>
 </div>
@@ -255,13 +250,6 @@ function rollGram() {
   if (!gram) return;
   const name = make("div", "gname", gram.name); name.lang = "zh-CN";
   box.append(name, make("div", "form", gram.form));
-  gram.ex.forEach(e => {
-    const row = make("div", "gex"), t = make("div");
-    const h = make("div", "h", e.han); h.lang = "zh-CN";
-    t.append(make("div", "p", e.py), h, make("div", "v", e.vi));
-    const b = make("button", "say"); b.type = "button"; b.innerHTML = SPEAKER; b.setAttribute("aria-label", "Nghe câu mẫu"); b.onclick = () => say(e.han, b);
-    row.append(t, b); box.append(row);
-  });
 }
 
 function clearPic() { pic = null; opened.clear(); $("frame").replaceChildren(Object.assign(make("div", "empty"), { innerHTML: "Bấm nút 聊<br>để rút một bức hình" })); renderHintBtns(); renderHints(); }
@@ -273,7 +261,6 @@ function draw() {
   pic = deck.pop(); opened.clear();
   const img = make("img"); img.src = pic.img; img.alt = pic.alt;
   $("frame").replaceChildren(img);
-  $("my").value = "";
   const d = $("dice"); d.classList.remove("spin"); void d.offsetWidth; d.classList.add("spin");
   renderHintBtns(); renderHints(); rollGram(); updateCount();
 }
