@@ -26,7 +26,7 @@
   --note: #3a342c; --tape: rgba(120, 104, 80, .7); --line-box: #2f2a24; --on-red: #1d1410 }
 
 * { box-sizing: border-box }
-body { margin: 0; background: var(--desk); color: var(--ink); font: 16px/1.55 var(--body) }
+body { margin: 0; background: var(--desk); color: var(--ink); font: 15px/1.5 var(--body) }
 button { font: inherit; color: inherit; cursor: pointer }
 button:focus-visible, a:focus-visible, textarea:focus-visible { outline: 2px solid var(--red); outline-offset: 2px }
 
@@ -45,17 +45,17 @@ button:focus-visible, a:focus-visible, textarea:focus-visible { outline: 2px sol
   background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,.18)); box-shadow: 2px 2px 3px rgba(0,0,0,.25) }
 .ring::before { content: ""; display: block; width: 10px; height: 10px; border-radius: 50%; background: var(--desk); margin: 0 0 0 40px; transform: translateY(0) }
 
-.top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: start }
+.top { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center }
 
-.dice { width: 84px; height: 84px; border-radius: 50%; border: 0; background: var(--red); color: var(--on-red);
+.dice { width: 74px; height: 74px; border-radius: 50%; border: 0; background: var(--red); color: var(--on-red);
   display: grid; place-content: center; text-align: center; line-height: 1.05; box-shadow: 0 6px 14px -6px rgba(155,51,40,.7), inset 0 -3px 0 rgba(0,0,0,.18) }
-.dice b { font-family: var(--han); font-size: 1.9rem; font-weight: 700 }
+.dice b { font-family: var(--han); font-size: 1.7rem; font-weight: 700 }
 .dice span { font-size: .72rem; font-weight: 700; letter-spacing: .02em }
 .dice:hover { transform: rotate(-6deg) }
 .dice.spin b { animation: spin .5s ease }
 @keyframes spin { from { transform: rotate(0) } to { transform: rotate(360deg) } }
 
-.range h2 { margin: 0 0 6px; font-family: var(--hand); font-size: 1.55rem; font-weight: 700; color: var(--ink); line-height: 1.1 }
+.range h2 { margin: 0 0 6px; font-family: var(--hand); font-size: 1.2rem; font-weight: 700; color: var(--ink); line-height: 1.1 }
 .range p { margin: 0 0 8px; font-size: .82rem; color: var(--muted) }
 .lessons { display: flex; flex-wrap: wrap; gap: 8px }
 .lesson { border: 1.5px solid var(--rule); background: var(--line-box); border-radius: 10px; padding: 6px 12px; text-align: left; display: grid; line-height: 1.25 }
@@ -64,43 +64,48 @@ button:focus-visible, a:focus-visible, textarea:focus-visible { outline: 2px sol
 .lesson[aria-pressed="true"] { border-color: var(--red); background: var(--red-soft) }
 .lesson.in:not([aria-pressed="true"]) { border-style: dashed; border-color: var(--red) }
 
-.note { position: relative; background: var(--note); padding: 14px 14px 12px; min-width: 176px; margin-top: -8px;
+.note { position: relative; background: var(--note); padding: 12px 14px 10px;
   clip-path: polygon(0 4%, 6% 0, 14% 3%, 25% 0, 38% 4%, 52% 1%, 66% 4%, 80% 0, 92% 3%, 100% 1%, 100% 100%, 0 100%);
   box-shadow: 0 4px 10px -6px rgba(0,0,0,.4); transform: rotate(1.5deg) }
 .clip { position: absolute; right: 18px; top: -26px; width: 20px; height: 52px; border: 3px solid var(--clip); border-radius: 10px; z-index: 2 }
 .clip::after { content: ""; position: absolute; left: 3px; top: 8px; width: 8px; height: 34px; border: 3px solid var(--clip); border-radius: 6px }
-.note h2 { margin: 0 0 6px; font-family: var(--hand); font-size: 1.5rem; line-height: 1 }
+.note h2 { margin: 0 0 6px; font-family: var(--hand); font-size: 1.2rem; line-height: 1 }
 .hbtns { display: flex; gap: 6px }
-.hbtn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--ink); background: transparent; font-family: var(--hand); font-size: 1.35rem; font-weight: 700; line-height: 1 }
+.hbtn { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--ink); background: transparent; font-family: var(--hand); font-size: 1.05rem; font-weight: 700; line-height: 1 }
 .hbtn:hover:not(:disabled):not([aria-pressed="true"]) { background: var(--paper) }
 .hbtn[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
 .hbtn:disabled { opacity: .35; cursor: not-allowed }
 .note .lg { margin: 8px 0 0; font-size: .74rem; color: var(--muted); line-height: 1.4 }
 
-.stage { display: grid; justify-items: center; margin: 28px 0 22px; gap: 8px }
-.photo { position: relative; width: min(420px, 100%); background: #fff; padding: 10px 10px 12px; box-shadow: 4px 6px 14px -6px rgba(0,0,0,.45); transform: rotate(-1.2deg) }
+.work { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(220px, .85fr); gap: 22px; align-items: start; margin-top: 18px }
+.stage { display: grid; justify-items: start; gap: 6px; padding-top: 14px }
+.side { display: grid; gap: 10px; align-content: start; padding-top: 8px }
+.hintbox { background: var(--line-box); border-radius: 4px; padding: 10px 12px 12px; display: grid; gap: 4px }
+.photo { position: relative; margin: 0; width: fit-content; max-width: 100%; background: #fff; padding: 10px 10px 12px; box-shadow: 4px 6px 14px -6px rgba(0,0,0,.45); transform: rotate(-1.2deg) }
 .photo::before { content: ""; position: absolute; top: -14px; left: 50%; width: 110px; height: 28px; margin-left: -55px; background: var(--tape); transform: rotate(2deg) }
-.frame { aspect-ratio: 4 / 3; display: grid; place-items: center; background: var(--paper-2); overflow: hidden }
-.frame img { width: 100%; height: 100%; object-fit: contain; display: block; background: #fff }
-.empty { padding: 16px; text-align: center; font-family: var(--hand); font-size: 1.5rem; color: var(--muted); line-height: 1.2 }
+.frame { display: grid; place-items: center; background: var(--paper-2); min-width: 240px; min-height: 180px }
+.frame img { display: block; width: auto; height: auto; max-width: 100%; max-height: 440px }
+.frame:has(img) { min-width: 0; min-height: 0; background: #fff }
+.empty { padding: 16px; text-align: center; font-family: var(--hand); font-size: 1.15rem; color: var(--muted); line-height: 1.2 }
 .count { font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums }
 
 .box { background: var(--line-box); border-radius: 4px; padding: 14px 18px 16px; margin-top: 14px;
   background-image: repeating-linear-gradient(transparent 0 31px, var(--rule) 31px 32px); background-position: 0 10px; box-shadow: 0 1px 0 rgba(0,0,0,.04) }
-.box h3 { margin: 0 0 8px; font-family: var(--hand); font-size: 1.45rem; line-height: 1.1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px }
+.box h3 { margin: 0 0 6px; font-family: var(--hand); font-size: 1.15rem; line-height: 1.1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px }
 .box h3 small { font-family: var(--body); font-size: .8rem; color: var(--muted); font-weight: 500 }
-.tip { margin: 0; font-size: .9rem; color: var(--muted) }
-.hint { margin-top: 10px }
-.hint h4 { margin: 0 0 6px; font-size: .9rem; color: var(--red); font-weight: 700 }
-.chips { display: flex; flex-wrap: wrap; gap: 8px }
-.chip { border: 1px solid var(--rule); background: var(--paper); border-radius: 10px; padding: 6px 12px; display: grid; justify-items: start; text-align: left; line-height: 1.25 }
-.chip .p { font-family: var(--pinyin); font-size: 1.02rem; color: var(--green) }
-.chip .h { font-family: var(--han); font-size: 1.1rem }
-.chip .v { font-size: .78rem; color: var(--muted) }
+.tip { margin: 0; font-size: .85rem; color: var(--muted) }
+.hint { margin-top: 6px }
+.hint:first-child { margin-top: 0 }
+.hint h4 { margin: 0 0 4px; font-size: .82rem; color: var(--red); font-weight: 700 }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { border: 1px solid var(--rule); background: var(--paper); border-radius: 8px; padding: 4px 9px; display: grid; justify-items: start; text-align: left; line-height: 1.25 }
+.chip .p { font-family: var(--pinyin); font-size: .88rem; color: var(--green) }
+.chip .h { font-family: var(--han); font-size: .98rem }
+.chip .v { font-size: .72rem; color: var(--muted) }
 
 .gtitle { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px }
-.form { display: inline-block; font-family: var(--body); font-size: 1.05rem; border: 1.5px dashed var(--red); border-radius: 8px; padding: 4px 10px; margin: 4px 0 8px }
-.gname { font-family: var(--body); font-size: 1.35rem; font-weight: 700 }
+.form { display: inline-block; font-family: var(--body); font-size: .95rem; border: 1.5px dashed var(--red); border-radius: 8px; padding: 4px 10px; margin: 4px 0 8px }
+.gname { font-family: var(--body); font-size: 1.12rem; font-weight: 700 }
 .zp { display: inline-grid; justify-items: center; vertical-align: bottom; line-height: 1.2; margin: 0 1px }
 .zp i { font-style: normal; font-family: var(--pinyin); font-size: .78em; font-weight: 400; color: var(--green) }
 .zp b { font-family: var(--han); font-weight: inherit }
@@ -123,11 +128,11 @@ textarea { width: 100%; min-height: 96px; resize: vertical; border: 0; backgroun
   .rings { left: 6px }
   .ring { width: 34px; height: 14px; border-width: 3px }
   .ring::before { margin-left: 20px; width: 7px; height: 7px }
-  .top { grid-template-columns: auto minmax(0, 1fr); }
-  .note { grid-column: 1 / -1; justify-self: end; margin-top: 4px }
+  .work { grid-template-columns: minmax(0, 1fr); gap: 14px }
+  .stage { justify-items: center }
+  .frame img { max-height: 380px }
   .dice { width: 70px; height: 70px }
   .dice b { font-size: 1.6rem }
-  .stage { margin-top: 20px }
 }
 @media (prefers-reduced-motion: reduce) { .dice.spin b { animation: none } }
 </style>
@@ -145,28 +150,28 @@ textarea { width: 100%; min-height: 96px; resize: vertical; border: 0; backgroun
         <h2 id="rangeH">Học đến bài nào?</h2>
         <div class="lessons" id="lessons"></div>
       </section>
-      <aside class="note" aria-labelledby="noteH">
-        <span class="clip" aria-hidden="true"></span>
-        <h2 id="noteH">Gợi ý</h2>
-        <div class="hbtns" id="hbtns"></div>
-        <p class="lg">1 nhân vật · 2 nơi chốn<br>3 thời gian · 4 sự kiện</p>
-      </aside>
     </div>
-
-    <div class="stage">
-      <figure class="photo" style="margin:0"><div class="frame" id="frame"><div class="empty">Bấm nút 聊<br>để rút một bức hình</div></div></figure>
-      <span class="count" id="count"></span>
-    </div>
-
-    <section class="box" aria-labelledby="hintH">
-      <h3 id="hintH">Gợi ý <small>bấm số trên mẩu giấy ghim</small></h3>
-      <div id="hints"><p class="tip">Rút hình trước, rồi mở từng gợi ý khi cần.</p></div>
-    </section>
 
     <section class="box" aria-labelledby="gramH">
       <div class="gtitle"><h3 id="gramH">Điểm ngữ pháp <small>thử dùng khi kể về bức hình</small></h3><button class="small" id="regram" type="button">Đổi cấu trúc</button></div>
       <div id="gram"></div>
     </section>
+
+    <div class="work">
+      <div class="stage">
+        <figure class="photo"><div class="frame" id="frame"><div class="empty">Bấm nút 聊<br>để rút một bức hình</div></div></figure>
+        <span class="count" id="count"></span>
+      </div>
+      <aside class="side" aria-labelledby="noteH">
+        <div class="note">
+          <span class="clip" aria-hidden="true"></span>
+          <h2 id="noteH">Gợi ý</h2>
+          <div class="hbtns" id="hbtns"></div>
+          <p class="lg">1 nhân vật · 2 nơi chốn · 3 thời gian · 4 sự kiện</p>
+        </div>
+        <div class="hintbox" id="hints" aria-live="polite"><p class="tip">Rút hình trước, rồi mở từng gợi ý khi cần.</p></div>
+      </aside>
+    </div>
 
     <p class="status" id="status" aria-live="polite"></p>
   </main>
